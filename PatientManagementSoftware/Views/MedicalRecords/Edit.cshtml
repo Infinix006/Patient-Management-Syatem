@@ -1,0 +1,71 @@
+﻿@model PatientManagementSoftware.Models.MedicalRecordsViewModel
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid py-4">
+
+
+    <div class="card my-4">
+        <div class="card-header p-0 position-relative mt-n4 mx-3 mb-0 z-index-2">
+            <div class="bg-gradient-primary shadow-primary border-radius-lg pt-3 pb-2">
+                <h6 class="text-white text-capitalize ps-3"><b>Medical Records</b></h6>
+            </div>
+        </div>
+        <div class="card-body mx-3 pt-3 p-2">
+            @using (Html.BeginForm("UpdateMedicalRecord", "MedicalRecords", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(model => model.Id)
+                <div class="row">
+                    <div class="col-lg-6 col-sm-12 mb-3">
+                        <div class="input-group input-group-outline is-filled">
+                            @Html.LabelFor(model => model.PatientID, new { @class = "form-label" })
+                            @Html.DropDownListFor(model => model.PatientID, new SelectList(ViewBag.patientlist, "PatientID", "Name"), "--Select Patient--", new { @class = "form-control", type = "text", required = "required" })
+                            @Html.ValidationMessageFor(m => m.PatientID, "", new { @class = "form-text text-muted" })
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-12 mb-3 ">
+                        <div class="input-group input-group-outline is-filled">
+                            @Html.LabelFor(model => model.DoctorID, new { @class = "form-label" })
+                            @Html.DropDownListFor(model => model.DoctorID, new SelectList(ViewBag.doctorslist, "DoctorID", "Name"), "--Select Doctor--", new { @class = "form-control", type = "text", required = "required" })
+                            @Html.ValidationMessageFor(m => m.DoctorID, "", new { @class = "form-text text-muted" })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 col-sm-12 mb-3">
+                        <div class="input-group input-group-outline is-filled">
+                            @Html.LabelFor(model => model.Diagnosis, new { @class = "form-label" })
+                            @Html.TextBoxFor(model => model.Diagnosis, new { @class = "form-control", required = "required", pattern = "[A-Za-z ]+", title = "Only letters and spaces allowed" })
+                            @Html.ValidationMessageFor(m => m.Diagnosis, "", new { @class = "form-text text-muted" })
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-12 mb-3">
+                        <div class="input-group input-group-outline is-filled">
+                            @Html.LabelFor(model => model.Treatment, new { @class = "form-label" })
+                            @Html.TextBoxFor(model => model.Treatment, new { @class = "form-control", type = "text", pattern = "[A-Za-z ]+", title = "Only letters and spaces allowed" })
+                            @Html.ValidationMessageFor(m => m.Treatment, "", new { @class = "form-text text-muted" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-6 col-sm-12 mb-3">
+                        <div class="input-group input-group-outline is-filled">
+                            @Html.LabelFor(model => model.Medications, new { @class = "form-label" })
+                            @Html.TextBoxFor(model => model.Medications, new { @class = "form-control", required = "required", pattern = "[A-Za-z ]+", title = "Only letters and spaces allowed" })
+                            @Html.ValidationMessageFor(m => m.Medications, "", new { @class = "form-text text-muted" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center mb-2">
+                    <button type="submit" class="btn btn-lg bg-gradient-primary btn-sm mb-0">Submit</button>
+                </div>
+            }
+        </div>
+    </div>
+
+</div>

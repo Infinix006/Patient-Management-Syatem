@@ -1,0 +1,70 @@
+﻿@model PatientManagementSoftware.Models.DoctorsViewModel
+@{
+    ViewBag.Title = "Edit Doctors";
+    ViewBag.Page = "Edit Doctors";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid py-4">
+
+    <div class="card my-4">
+        <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+            <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                <h6 class="text-white text-capitalize ps-3"><b>Edit Doctor</b></h6>
+            </div>
+        </div>
+        <div class="card-body mx-3 pt-3 p-2">
+
+            @using (Html.BeginForm("UpdateDoctor", "Doctor", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(model => model.DoctorID)
+                <div class="row">
+                    <div class="col-lg-6 col-sm-12 mb-3">
+                        <div class="input-group input-group-outline is-filled">
+                            @Html.LabelFor(model => model.Name, new { @class = "form-label" })
+                            @Html.TextBoxFor(model => model.Name, new { @class = "form-control", required = "required", pattern = "[A-Za-z ]+", title = "Only letters and spaces allowed" })
+                            @Html.ValidationMessageFor(m => m.Name, "", new { @class = "form-text text-muted" })
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-12 mb-3">
+                        <div class="input-group input-group-outline is-filled">
+                            @Html.LabelFor(model => model.Specialization, new { @class = "form-label" })
+                            @Html.TextBoxFor(model => model.Specialization, new { @class = "form-control", type = "text", pattern = "[A-Za-z ]+", title = "Only letters and spaces allowed" })
+                            @Html.ValidationMessageFor(m => m.Specialization, "", new { @class = "form-text text-muted" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-6 col-sm-12 mb-3">
+                        <div class="input-group input-group-outline is-filled">
+                            @Html.LabelFor(model => model.ContactNumber, new { @class = "form-label" })
+                            @Html.TextBoxFor(model => model.ContactNumber, new { @class = "form-control", required = "required", pattern = "[0-9]+", title = "Only numeric values allowed" })
+                            @Html.ValidationMessageFor(m => m.ContactNumber, "", new { @class = "form-text text-muted" })
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-12 mb-3">
+                        <div class="input-group input-group-outline is-filled">
+                            @Html.LabelFor(model => model.Availability, new { @class = "form-label" })
+                            @Html.DropDownListFor(model => model.Availability, new SelectList(new[]
+                              {
+                                     new SelectListItem{Text="Available", Value="Available" },
+                                     new SelectListItem{Text="Un-Available", Value="Un-Available" },
+                              }, "Value", "Text"), "--Choose Availability--", new { @class = "form-control", required = "required" })
+                            @Html.ValidationMessageFor(m => m.Availability, "", new { @class = "form-text text-muted" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center mb-2">
+                    <button type="submit" class="btn btn-lg bg-gradient-primary btn-lg mb-0">Submit</button>
+                </div>
+
+            }
+
+
+        </div>
+    </div>
+
+</div>

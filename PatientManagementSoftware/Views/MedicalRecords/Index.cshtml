@@ -1,0 +1,170 @@
+﻿@model PatientManagementSoftware.Models.MedicalRecordsViewModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Page = "Medical Records";
+}
+
+<div class="container-fluid py-4">
+
+
+    <div class="card my-4">
+        <div class="card-header p-0 position-relative mt-n4 mx-3 mb-0 z-index-2">
+            <div class="bg-gradient-primary shadow-primary border-radius-lg pt-3 pb-2">
+                <h6 class="text-white text-capitalize ps-3"><b>Medical Records</b></h6>
+            </div>
+        </div>
+        <div class="card-body mx-3 pt-3 p-2">
+            @using (Html.BeginForm("SaveMedicalRecord", "MedicalRecords", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                <div class="row">
+                    <div class="col-lg-6 col-sm-12 mb-3">
+                        <div class="input-group input-group-outline is-filled">
+                            @Html.LabelFor(model => model.PatientID, new { @class = "form-label" })
+                            @Html.DropDownListFor(model => model.PatientID, new SelectList(ViewBag.patientlist, "PatientID", "Name"), "--Select Patient--", new { @class = "form-control", type = "text", required = "required" })
+                            @Html.ValidationMessageFor(m => m.PatientID, "", new { @class = "form-text text-muted" })
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-12 mb-3 ">
+                        <div class="input-group input-group-outline is-filled">
+                            @Html.LabelFor(model => model.DoctorID, new { @class = "form-label" })
+                            @Html.DropDownListFor(model => model.DoctorID, new SelectList(ViewBag.doctorslist, "DoctorID", "Name"), "--Select Doctor--", new { @class = "form-control", type = "text", required = "required" })
+                            @Html.ValidationMessageFor(m => m.DoctorID, "", new { @class = "form-text text-muted" })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 col-sm-12 mb-3">
+                        <div class="input-group input-group-outline">
+                            @Html.LabelFor(model => model.Diagnosis, new { @class = "form-label" })
+                            @Html.TextBoxFor(model => model.Diagnosis, new { @class = "form-control", required = "required", pattern = "[A-Za-z ]+", title = "Only letters and spaces allowed" })
+                            @Html.ValidationMessageFor(m => m.Diagnosis, "", new { @class = "form-text text-muted" })
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-12 mb-3">
+                        <div class="input-group input-group-outline">
+                            @Html.LabelFor(model => model.Treatment, new { @class = "form-label" })
+                            @Html.TextBoxFor(model => model.Treatment, new { @class = "form-control", type = "text", pattern = "[A-Za-z ]+", title = "Only letters and spaces allowed" })
+                            @Html.ValidationMessageFor(m => m.Treatment, "", new { @class = "form-text text-muted" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-6 col-sm-12 mb-3">
+                        <div class="input-group input-group-outline">
+                            @Html.LabelFor(model => model.Medications, new { @class = "form-label" })
+                            @Html.TextBoxFor(model => model.Medications, new { @class = "form-control", required = "required", pattern = "[A-Za-z ]+", title = "Only letters and spaces allowed" })
+                            @Html.ValidationMessageFor(m => m.Medications, "", new { @class = "form-text text-muted" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center mb-2">
+                    <button type="submit" class="btn btn-lg bg-gradient-primary btn-sm mb-0">Submit</button>
+                </div>
+            }
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card my-4">
+                <div class="card-header p-0 position-relative mt-n4 mx-3 mb-0 z-index-2">
+                    <div class="bg-gradient-primary shadow-primary border-radius-lg pt-3 pb-2">
+                        <h6 class="text-white text-capitalize ps-3">Medical Records</h6>
+                    </div>
+                </div>
+                <div class="card-body px-3 pb-2">
+                    <div class="table-responsive p-0">
+                        <table class="table align-items-center justify-content-center mb-0 p-2">
+                            <thead>
+                                <tr>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Record Id</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Patient Name</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Doctor Name</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Diagnosis</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Treatment</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Medication</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var records in ViewBag.list)
+                                {
+                                    <tr id="row_@records.Id">
+                                        <td class="text-start text-secondary text-xs font-weight-bolder px-4 py-3">@records.Id</td>
+                                        <td class="text-start text-secondary text-xs font-weight-bolder px-4 py-3">@records.PatientNAme</td>
+                                        <td class="text-start text-secondary text-xs font-weight-bold px-4 py-3">@records.DoctorName</td>
+                                        <td class="text-start text-secondary text-xs font-weight-bold px-4 py-3">@records.Diagnosis</td>
+                                        <td class="text-start  text-secondary text-xs font-weight-bold px-4 py-3">@records.Treatment</td>
+                                        <td class="text-start text-secondary text-xs font-weight-bold px-4 py-3">@records.Medications</td>
+                                        <td class="text-start  mb-0">
+                                            <a href="@Url.Action("Edit", "MedicalRecords", new { id = records.Id })" class="text-secondary font-weight-bold text-xs mx-2">Edit</a>
+                                            <a href="#" class="text-secondary font-weight-bold text-xs mx-2" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="openModal(@records.Id)">Delete</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                            @**@
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title font-weight-normal" id="exampleModalLabel">Warning !!!!!!!</h5>
+                    <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete the Medical Record ?...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Close</button>
+                    <button onclick="deleteRecord()" type="button" class="btn bg-gradient-primary" data-bs-dismiss="modal">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+</div>
+
+@section deleteScript{
+    <script>
+
+        var deleteId;
+
+        function openModal(id) {
+            deleteId = id;
+            $('#exampleModal').modal('show'); // Open the modal
+        }
+
+        function deleteRecord() {
+            $.ajax({
+                url: 'MedicalRecords/Delete',
+                type: 'POST',
+                data: { id: deleteId },
+                success: function (response) {
+                    $('#row_' + deleteId).remove();
+                },
+                error: function () {
+                    alert("Oops! Something went wrong.");
+                }
+            });
+        }
+    </script>
+}
+

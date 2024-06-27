@@ -1,0 +1,40 @@
+﻿@model PatientManagementSoftware.Models.LoginViewModel
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+}
+
+@using (Html.BeginForm("Login", "Login", FormMethod.Post, new { @class = "form-signin" }))
+{
+    @Html.AntiForgeryToken()
+
+
+    <h2 class="form-signin-heading">Login</h2>
+
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Username, new { @class = "sr-only" })
+        @Html.TextBoxFor(model => model.Username, new { @class = "form-control", placeholder = "Username", required = "required", autofocus = "autofocus" })
+    </div>
+
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Password, new { @class = "sr-only" })
+        @Html.PasswordFor(model => model.Password, new { @class = "form-control", placeholder = "Password", required = "required" })
+    </div>
+
+
+    @*<div class="form-group">
+            @Html.LabelFor(model => model.SelectedType, new { @class = "sr-only" })
+            @Html.DropDownListFor(model => model.SelectedType, new SelectList(Model.Types ?? new List<string>()), new { @class = "form-control", required = "required" })
+        </div>*@
+    <div class="checkbox mb-3">
+        <label>
+            @Html.CheckBoxFor(model => model.RememberMe) Remember Me
+        </label>
+    </div>
+
+
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+}
+

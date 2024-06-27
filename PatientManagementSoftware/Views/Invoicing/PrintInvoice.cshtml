@@ -1,0 +1,134 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Invoice</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap"
+          rel="stylesheet" />
+    <link href="~/Content/assets/css/PrintSheet.css" rel="stylesheet" />
+
+    <script src="https://printjs-4de6.kxcdn.com/print.min.js"></script>
+
+</head>
+<body>
+    <form action="#" id="printInv">
+
+        <div class="container" id="printInv">
+            <div class="inv-title">
+                <h1>Invoice Id - @Model.BillID</h1>
+            </div>
+            <img src="~/Content/assets/images/logo.jpg" class="inv-logo" />
+            <div class="inv-header">
+                <div>
+                    <h2>Alexis Multispecialty Hospital</h2>
+                    <ul>
+                        <li>232, Mankapur, Koradi Rd,</li>
+                        <li>Byramji Town, Nagpur,</li>
+                        <li>Maharashtra 440030</li>
+                        <li>Phone: 0712 712 0000</li>
+                    </ul>
+                    <br />
+                    <h2>Patient Details</h2>
+                    <p><b>Patient Name:</b>@Model.PatientName</p>
+                    <p><b>Patient ID:</b>@Model.PatientID</p>
+                    <p><b>Payment Status:</b>@Model.PaymentStatus</p>
+
+
+                </div>
+                <div>
+                    <table>
+                        <tr>
+                            <th>Issue Date</th>
+                            <td>@Model.BillDate</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            @*            <div class="inv-body">
+            <table>
+                <thead>
+                <th>Diagnosis</th>
+                <th>Treatment</th>
+                <th>Medications</th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <h4>Hosting</h4>
+                            <p>Some kind of hositing</p>
+                        </td>
+                        <td>1</td>
+                        <td>2000</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h4>Hosting</h4>
+                            <p>Some kind of hositing</p>
+                        </td>
+                        <td>1</td>
+                        <td>2000</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+            *@            <div class="inv-footer">
+                <div><!-- required --></div>
+                <div>
+                    <table>
+                        <tr>
+                            <th>Sub total</th>
+                            <td>200</td>
+                        </tr>
+                        <tr>
+                            <th>Sales tax</th>
+                            <td>200</td>
+                        </tr>
+                        <tr>
+                            <th>Grand total</th>
+                            <td>1200</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div class="container">
+        <button id="print-pdf" onclick="printJS('printInv', 'pdf')">Print PDF</button>
+        <button id="print" onclick="print('printInv')">Print</button>
+    </div>
+
+
+
+
+
+
+    <script>
+
+        function PrintPdf() {
+            alert("Hello");
+        }
+
+        function print(divName) {
+            var printContents = document.getElementById(divName).innerHTML;
+            w = window.open();
+            w.document.write(printContents);
+            w.print();
+            w.close();
+        }
+
+    </script>
+
+
+
+
+</body>
+
+
+
+</html>

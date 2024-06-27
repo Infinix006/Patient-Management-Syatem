@@ -1,0 +1,177 @@
+﻿@model PatientManagementSoftware.Models.AppointmentsViewModel
+@{
+    ViewBag.Title = "Appointment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Page = "Appointment";
+
+}
+
+<div class="container-fluid py-4">
+
+
+    <div class="card my-4">
+        <div class="card-header p-0 position-relative mt-n4 mx-3 mb-0 z-index-2">
+            <div class="bg-gradient-primary shadow-primary border-radius-lg pt-3 pb-2">
+                <h6 class="text-white text-capitalize ps-3"><b>Book Appointment</b></h6>
+            </div>
+        </div>
+        <div class="card-body mx-3 pt-3 p-2">
+            @using (Html.BeginForm("SaveAppointment", "Appointment", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                <div class="row">
+                    <div class="col-lg-6 col-sm-12 mb-3">
+                        <div class="input-group input-group-outline is-filled">
+                            @Html.LabelFor(model => model.PatientName, new { @class = "form-label" })
+                            @Html.DropDownListFor(model => model.PatientID, new SelectList(ViewBag.PatientList, "PatientID", "Name"), "--Select Patient--", new { @class = "form-control", type = "text" , required = "required"})
+                            @Html.ValidationMessageFor(m => m.PatientID, "", new { @class = "form-text text-muted" })
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-12 mb-3 ">
+                        <div class="input-group input-group-outline is-filled">
+                            @Html.LabelFor(model => model.DoctorName, new { @class = "form-label" })
+                            @Html.DropDownListFor(model => model.DoctorID, new SelectList(ViewBag.DoctorList, "DoctorID", "Name"), "--Select Doctor--", new { @class = "form-control", type = "text", required = "required" })
+                            @Html.ValidationMessageFor(m => m.DoctorID, "", new { @class = "form-text text-muted" })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 col-sm-12 mb-3 ">
+                        <div class="input-group input-group-outline is-filled">
+                            @Html.LabelFor(model => model.AppointmentDateTime, new { @class = "form-label" })
+                            @Html.TextBoxFor(model => model.AppointmentDateTime, new { @class = "form-control", type = "date", required = "required" })
+                            @Html.ValidationMessageFor(m => m.AppointmentDateTime, "", new { @class = "form-text text-muted" })
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-12 mb-3">
+                        <div class="input-group input-group-outline">
+                            @Html.LabelFor(model => model.Reason, new { @class = "form-label" })
+                            @Html.TextBoxFor(model => model.Reason, new { @class = "form-control", type = "text" , required = "required", pattern = "[A-Za-z ]+", title = "Only letters and spaces allowed" })
+                            @Html.ValidationMessageFor(m => m.Reason, "", new { @class = "form-text text-muted" })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 col-sm-12 mb-3">
+                        <div class="input-group input-group-outline is-filled">
+                            @Html.LabelFor(model => model.Status, new { @class = "form-label" })
+                            @Html.DropDownListFor(model => model.Status, new SelectList(new[]
+                              {
+                                     new SelectListItem{Text="Booked", Value="Booked" },
+                                     new SelectListItem{Text="Appointed", Value="Appointed" },
+                              }, "Value", "Text"), new { @class = "form-control", required = "required" })
+                            @Html.ValidationMessageFor(m => m.Status, "", new { @class = "form-text text-muted" })
+                        </div>
+                    </div>
+
+                </div>
+                <div class="text-center mb-2">
+                    <button type="submit" class="btn btn-sm bg-gradient-primary btn-lg mb-0">Submit</button>
+                </div>
+
+            }
+
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card my-4">
+                <div class="card-header p-0 position-relative mt-n4 mx-3 mb-0 z-index-2">
+                    <div class="bg-gradient-primary shadow-primary border-radius-lg pt-3 pb-2">
+                        <h6 class="text-white text-capitalize ps-3">Appointments</h6>
+                    </div>
+                </div>
+                <div class="card-body px-3 pb-2">
+                    <div class="table-responsive p-0">
+                        <table class="table align-items-center justify-content-center mb-0 p-2">
+                            <thead>
+                                <tr>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Appointment Id</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Patient Name</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Doctor Name</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Appointment DateTime</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Reason</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var Appointments in ViewBag.list)
+                                {
+                                    <tr id="row_@Appointments.AppointmentID">
+                                        <td class="text-start text-secondary text-xs font-weight-bolder px-4 py-3">@Appointments.AppointmentID</td>
+                                        <td class="text-start text-secondary text-xs font-weight-bolder px-4 py-3">@Appointments.PatientName</td>
+                                        <td class="text-start text-secondary text-xs font-weight-bold px-4 py-3">@Appointments.DoctorName</td>
+                                        <td class="text-start text-secondary text-xs font-weight-bold px-4 py-3">@Appointments.AppointmentDateTime</td>
+                                        <td class="text-start  text-secondary text-xs font-weight-bold px-4 py-3">@Appointments.Reason</td>
+                                        <td class="text-start text-secondary text-xs font-weight-bold px-4 py-3">@Appointments.Status</td>
+                                        <td class="text-start  mb-0">
+                                            <a href="@Url.Action("Edit", "Appointment", new { id = Appointments.AppointmentID })" class="text-secondary font-weight-bold text-xs mx-2">Edit</a>
+                                            <a href="" class="text-secondary font-weight-bold text-xs mx-2" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="openModal(@Appointments.AppointmentID)">Delete</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                            @**@
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title font-weight-normal" id="exampleModalLabel">Warning !!!!!!!</h5>
+                    <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete the Appointments ?...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Close</button>
+                    <button onclick="deleteAppointment()" type="button" class="btn bg-gradient-primary" data-bs-dismiss="modal">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+</div>
+
+
+@section deleteScript{
+    <script>
+
+        var deleteId;
+
+        function openModal(id) {
+            deleteId = id;
+            $('#exampleModal').modal('show'); // Open the modal
+        }
+
+        function deleteAppointment() {
+            $.ajax({
+                url: 'Appointment/Delete',
+                type: 'POST',
+                data: { id: deleteId },
+                success: function (response) {
+                    $('#row_' + deleteId).remove();
+                },
+                error: function () {
+                    alert("Oops! Something went wrong.");
+                }
+            });
+        }
+    </script>
+}
+

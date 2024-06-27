@@ -1,0 +1,68 @@
+﻿@model PatientManagementSoftware.Models.BillingViewModel
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Page = "Invoicing";
+}
+
+<div class="container-fluid py-4">
+
+
+    <div class="card my-4">
+        <div class="card-header p-0 position-relative mt-n4 mx-3 mb-0 z-index-2">
+            <div class="bg-gradient-primary shadow-primary border-radius-lg pt-3 pb-2">
+                <h5 class="text-white text-capitalize ps-3"><b>Edit Invoice</b></h5>
+            </div>
+        </div>
+        <div class="card-body mx-3 pt-3 p-2">
+
+            @using (Html.BeginForm("UpdateInvoice", "Invoicing", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(model => model.BillID)
+                <div class="row mb-3">
+                    <div class="col-lg-6 col-sm-12 ">
+                        <div class="input-group input-group-outline is-filled">
+                            @Html.LabelFor(model => model.PatientName, new { @class = "form-label" })
+                            @Html.DropDownListFor(model => model.PatientID, new SelectList(ViewBag.PatientList, "PatientID", "Name"), "--Select Patient--", new { @class = "form-control", type = "text" })
+                            @Html.ValidationMessageFor(m => m.PatientID, "", new { @class = "form-text text-muted" })
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-12 ">
+                        <div class="input-group input-group-outline is-filled">
+                            @Html.LabelFor(model => model.BillDate, new { @class = "form-label" })
+                            @Html.TextBoxFor(model => model.BillDate, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.BillDate, "", new { @class = "form-text text-muted" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+
+                    <div class="col-lg-6 col-sm-12 ">
+                        <div class="input-group input-group-outline is-filled">
+                            @Html.LabelFor(model => model.Amount, new { @class = "form-label" })
+                            @Html.TextBoxFor(model => model.Amount, new { @class = "form-control", type = "text" })
+                            @Html.ValidationMessageFor(m => m.Amount, "", new { @class = "form-text text-muted" })
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-12 ">
+
+                        <div class="input-group input-group-outline is-filled">
+                            @Html.LabelFor(model => model.PaymentStatus, new { @class = "form-label" })
+                            @Html.DropDownListFor(model => model.PaymentStatus, new SelectList(
+                         new List<SelectListItem> { new SelectListItem { Value = "Paid", Text = "Paid" }, new SelectListItem { Value = "UnPaid", Text = "Unpaid" } }, "Value", "Text"
+                         ), "--Select Payment Status--", new { @class = "form-control", type = "text", required = "required" })
+                            @Html.ValidationMessageFor(m => m.PaymentStatus, "", new { @class = "form-text text-muted" })
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-sm bg-gradient-primary btn-lg mt-3 mb-0">Submit</button>
+                    </div>
+
+
+                </div>
+            }
+        </div>
+    </div>
+</div>
